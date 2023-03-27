@@ -9,5 +9,5 @@ export const handleRemoveCookie = (name) => {
 }
 
 export const handleGetCookie = (name) => {
-    return JsCookie.remove(name)
+    return JsCookie.get(name)
 }
