@@ -91,7 +91,8 @@ export default function ProductsPage() {
                 movies={movieList}
                 selectedFavoriteMovie={handleSelectedFavorite}
                 handleShowMovieDetail={handleShowMovieDetail}
-            /> : <h2>Loading...</h2>}
+            /> : <h2>Loading...</h2>
+        }
 
         <ProductCartWidget />
       </Container>

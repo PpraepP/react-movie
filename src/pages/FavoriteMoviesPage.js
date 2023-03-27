@@ -93,7 +93,10 @@ export default function FavoriteMoviesPage() {
                 movies={movieList}
                 selectedFavoriteMovie={handleSelectedFavorite}
                 handleShowMovieDetail={handleShowMovieDetail}
-            /> : <h2>Loading...</h2>}
+            /> : <h2>Loading...</h2>
+        }
+
+        {isRender && movieList.length === 0 && <h2>No Favorite List</h2>}
 
         <ProductCartWidget />
       </Container>
