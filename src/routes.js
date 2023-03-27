@@ -3,26 +3,28 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-import BlogPage from './pages/BlogPage';
-import UserPage from './pages/UserPage';
+// import BlogPage from './pages/BlogPage';
+// import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
-import DashboardAppPage from './pages/DashboardAppPage';
+// import DashboardAppPage from './pages/DashboardAppPage';
+import FavoriteMoviesPage from "./pages/FavoriteMoviesPage";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/dashboard',
+      path: '/',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
+        { element: <Navigate to="/movies" />, index: true },
+        // { path: 'app', element: <DashboardAppPage /> },
+        // { path: 'user', element: <UserPage /> },
         { path: 'movies', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        { path: 'movies/favorite', element: <FavoriteMoviesPage /> },
+        // { path: 'blog', element: <BlogPage /> },
       ],
     },
     {
@@ -32,7 +34,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/dashboard/app" />, index: true },
+        { element: <Navigate to="/movies" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
