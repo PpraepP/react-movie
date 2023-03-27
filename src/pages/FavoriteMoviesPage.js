@@ -6,25 +6,25 @@ import { Container, Stack, Typography } from '@mui/material';
 // components
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
-import PRODUCTS from '../_mock/products';
+// import PRODUCTS from '../_mock/products';
 
 import { useGetMovies } from "../hooks/useGetMovies";
-import logo from "../components/logo";
+// import logo from "../components/logo";
 import {handleFavoriteMovie, saveMovies} from "../features/movies/movieSlice";
+import MovieDetailModal from "../components/modal";
 
 // ----------------------------------------------------------------------
 
 export default function FavoriteMoviesPage() {
   const dispatch = useDispatch()
   const [openFilter, setOpenFilter] = useState(false);
-  // const [movieList, setMovieList] = useState(useSelector(state => state.movie.movies))
   const [isRender, setIsRender] = useState(false)
 
-  const movieList = useSelector(state => state.movie.movies)
-  // console.log({movieList})
+  const movieList = useSelector(state => state.movie.favoriteMovies)
+  const [movieDetail, setMovieDetail] = useState(undefined)
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
 
   useEffect( (movieList) => {
-    console.log('LOOK! 1')
     const fetchData = async () => {
       await fetchMovies()
     }
@@ -34,10 +34,6 @@ export default function FavoriteMoviesPage() {
       fetchData()
     }
   }, [])
-
-  // useEffect( () => {
-  //   console.log('LOOK!', movieList)
-  // }, [movieList])
 
   const fetchMovies = async () => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -65,6 +61,11 @@ export default function FavoriteMoviesPage() {
     dispatch(handleFavoriteMovie(movie))
   }
 
+  const handleShowMovieDetail = (movie) => {
+    setMovieDetail(movie)
+    setIsOpenDialog(!isOpenDialog)
+  }
+
   return (
     <>
       <Helmet>
@@ -87,10 +88,22 @@ export default function FavoriteMoviesPage() {
           </Stack>
         </Stack>
 
-        {isRender && movieList ? <ProductList movies={movieList} onSelectedFavoriteMovie={handleSelectedFavorite} /> : <h2>Loading...</h2>}
+        {isRender && movieList ?
+            <ProductList
+                movies={movieList}
+                selectedFavoriteMovie={handleSelectedFavorite}
+                handleShowMovieDetail={handleShowMovieDetail}
+            /> : <h2>Loading...</h2>}
 
         <ProductCartWidget />
       </Container>
+      {movieDetail &&
+          <MovieDetailModal
+              movie={movieDetail}
+              isOpenDialog={isOpenDialog}
+              onCloseDialog={() => setIsOpenDialog(false)}
+          />
+      }
     </>
   );
 }
