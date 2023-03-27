@@ -1,13 +1,14 @@
+import { useEffect } from "react";
 import PropTypes from 'prop-types';
-import { useNavigate, NavLink as RouterLink } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useNavigate, useLocation, NavLink as RouterLink } from 'react-router-dom';
+import { useDispatch} from "react-redux";
 // @mui
 import { Box, List, ListItemText } from '@mui/material';
 //
 import { StyledNavItem, StyledNavItemIcon } from './styles';
 import SvgColor from '../svg-color';
 import {clearFavoriteMovies} from "../../features/movies/movieSlice";
-import { handleRemoveCookie } from "../../helper/cookie";
+import { handleRemoveCookie, handleGetCookie } from "../../helper/cookie";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,16 @@ NavSection.propTypes = {
 
 export default function NavSection({ data = [], ...other }) {
     const navigate = useNavigate()
+    const location = useLocation()
     const dispatch = useDispatch()
+
+    const isAuth = handleGetCookie('is-auth')
+
+    useEffect(() => {
+        if(!isAuth) {
+            navigate('/login', { replace: true })
+        }
+    }, [location])
 
     const handleLogout = () => {
         dispatch(clearFavoriteMovies())

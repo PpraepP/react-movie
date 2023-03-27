@@ -36,7 +36,7 @@ export default function LoginForm() {
       const isAuth = checkAccount()
       if (isAuth) {
           handleSetCookie({name: 'is-auth', value: isAuth})
-          navigate('/dashboard', { replace: true });
+          navigate('/movies', { replace: true });
       }
 
   };
