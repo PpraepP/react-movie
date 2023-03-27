@@ -13,7 +13,6 @@ export const movieSlice = createSlice({
         },
         handleFavoriteMovie: (state, action) => {
             const duplicateMovie = state.favoriteMovies.find((movie) => movie.id === action.payload.id)
-            console.log({duplicateMovie})
 
             if(!duplicateMovie) {
                 state.favoriteMovies = state.favoriteMovies.concat(action.payload)
@@ -22,9 +21,12 @@ export const movieSlice = createSlice({
             }
 
             console.log('saveFavoriteMovie', state.favoriteMovies)
+        },
+        clearFavoriteMovies: (state) => {
+            state.favoriteMovies = []
         }
     }
 })
 
-export const { saveMovies, handleFavoriteMovie } = movieSlice.actions
+export const { saveMovies, handleFavoriteMovie, clearFavoriteMovies } = movieSlice.actions
 export default movieSlice.reducer
