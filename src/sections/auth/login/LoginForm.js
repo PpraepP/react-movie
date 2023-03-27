@@ -21,15 +21,11 @@ export default function LoginForm() {
   })
 
     const handleChangeEmail = (event) => {
-        setDataForm((form) => {
-            return {...form, email: event.target.value}
-        })
+        setDataForm((form) => ({...form, email: event.target.value}))
     }
 
     const handleChangePassword = (event) => {
-        setDataForm((form) => {
-            return {...form, password: event.target.value}
-        })
+        setDataForm((form) => ({...form, password: event.target.value}))
     }
 
   const handleClick = () => {

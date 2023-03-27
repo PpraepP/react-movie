@@ -8,6 +8,4 @@ export const handleRemoveCookie = (name) => {
     JsCookie.remove(name)
 }
 
-export const handleGetCookie = (name) => {
-    return JsCookie.get(name)
-}
+export const handleGetCookie = (name) => JsCookie.get(name)
