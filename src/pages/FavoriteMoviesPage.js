@@ -19,27 +19,33 @@ export default function FavoriteMoviesPage() {
   const dispatch = useDispatch()
   const [openFilter, setOpenFilter] = useState(false);
   const [isRender, setIsRender] = useState(false)
+  const [ favoriteList, setFavoriteList ] = useState([])
 
-  const movieList = useSelector(state => state.movie.favoriteMovies)
+  const movieList = useSelector(state => state.movie.movies)
   const [movieDetail, setMovieDetail] = useState(undefined)
   const [isOpenDialog, setIsOpenDialog] = useState(false)
 
-  useEffect( (movieList) => {
+  useEffect( () => {
     const fetchData = async () => {
       await fetchMovies()
     }
 
-    if (!movieList || movieList.length === 0) {
-      console.log(2)
+    if (movieList.length === 0) {
       fetchData()
+    } else {
+      filterFavoriteMovies()
     }
-  }, [])
+  }, [movieList])
+
+  const filterFavoriteMovies = () => {
+    setFavoriteList(movieList.filter((movie) => movie.isFavorite === true))
+    setIsRender(true)
+  }
 
   const fetchMovies = async () => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       await useGetMovies({
         onSuccess: (res) => {
-          console.log(3)
           // eslint-disable-next-line react-hooks/rules-of-hooks
           dispatch(saveMovies(res.movies))
           setIsRender(true)
@@ -56,9 +62,8 @@ export default function FavoriteMoviesPage() {
     setOpenFilter(false);
   };
 
-  const handleSelectedFavorite = (movie) => {
-    console.log('on page', movie)
-    dispatch(handleFavoriteMovie(movie))
+  const handleSelectedFavorite = (id) => {
+    dispatch(handleFavoriteMovie(id))
   }
 
   const handleShowMovieDetail = (movie) => {
@@ -88,15 +93,15 @@ export default function FavoriteMoviesPage() {
           </Stack>
         </Stack>
 
-        {isRender && movieList ?
+        {isRender && favoriteList ?
             <ProductList
-                movies={movieList}
+                movies={favoriteList}
                 selectedFavoriteMovie={handleSelectedFavorite}
                 handleShowMovieDetail={handleShowMovieDetail}
             /> : <h2>Loading...</h2>
         }
 
-        {isRender && movieList.length === 0 && <h2>No Favorite List</h2>}
+        {isRender && favoriteList.length === 0 && <h2>No Favorite List</h2>}
 
         <ProductCartWidget />
       </Container>

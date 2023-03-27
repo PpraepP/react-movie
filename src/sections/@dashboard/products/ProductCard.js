@@ -37,7 +37,7 @@ export default function ShopProductCard({ movie , ...props}) {
 
     const handleFavoriteButton = (e) => {
         e.stopPropagation()
-        props.selectedFavoriteMovie(movie)
+        props.selectedFavoriteMovie(movie.id)
     }
 
   return (
@@ -45,8 +45,11 @@ export default function ShopProductCard({ movie , ...props}) {
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <StyledProductImg alt={name} src={cover} />
           <StyleFavoriteButton onClick={handleFavoriteButton}>
-              <Iconify icon="ic:round-favorite-border" color="#e04d4f" width={30}  />
-          </StyleFavoriteButton>
+              { movie.isFavorite ?
+                  <Iconify icon="material-symbols:favorite-rounded" color="#e04d4f" width={30} /> :
+                <Iconify icon="ic:round-favorite-border" color="#e04d4f" width={30} />
+              }
+              </StyleFavoriteButton>
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>

@@ -23,15 +23,15 @@ export default function ProductsPage() {
   const [movieDetail, setMovieDetail] = useState(undefined)
   const [isOpenDialog, setIsOpenDialog] = useState(false)
 
-  useEffect( (movieList) => {
-    console.log('LOOK! 1')
+  useEffect( () => {
     const fetchData = async () => {
       await fetchMovies()
     }
 
     if (!movieList || movieList.length === 0) {
-      console.log(2)
       fetchData()
+    } else {
+      setIsRender(true)
     }
   }, [])
 
@@ -39,8 +39,8 @@ export default function ProductsPage() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       await useGetMovies({
         onSuccess: (res) => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          dispatch(saveMovies(res.movies))
+          const movies = res.movies.map((movie) => ({...movie, isFavorite: false}))
+          dispatch(saveMovies(movies))
           setIsRender(true)
         },
         onError: () => console.log('err')
@@ -55,8 +55,8 @@ export default function ProductsPage() {
     setOpenFilter(false);
   };
 
-  const handleSelectedFavorite = (movie) => {
-    dispatch(handleFavoriteMovie(movie))
+  const handleSelectedFavorite = (id) => {
+    dispatch(handleFavoriteMovie(id))
   }
 
   const handleShowMovieDetail = (movie) => {

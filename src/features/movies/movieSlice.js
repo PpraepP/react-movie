@@ -4,26 +4,21 @@ export const movieSlice = createSlice({
     name: 'movie',
     initialState: {
         movies: [],
-        favoriteMovies: []
     },
     reducers: {
         saveMovies: (state, action) => {
             state.movies = [...action.payload]
-            console.log('saveMovies', state.movies)
         },
         handleFavoriteMovie: (state, action) => {
-            const duplicateMovie = state.favoriteMovies.find((movie) => movie.id === action.payload.id)
-
-            if(!duplicateMovie) {
-                state.favoriteMovies = state.favoriteMovies.concat(action.payload)
-            } else {
-                state.favoriteMovies = state.favoriteMovies.filter(movie => movie.id !== action.payload.id)
-            }
-
-            console.log('saveFavoriteMovie', state.favoriteMovies)
+            state.movies = state.movies.map(movie => {
+                if(movie.id === action.payload) {
+                    movie.isFavorite = !movie.isFavorite
+                }
+                return movie
+            })
         },
         clearFavoriteMovies: (state) => {
-            state.favoriteMovies = []
+            state.movies = state.movies.map((movie) => ({...movie, isFavorite: false}))
         }
     }
 })
