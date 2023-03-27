@@ -7,7 +7,8 @@ import ShopProductCard from './ProductCard';
 
 ProductList.propTypes = {
   movies: PropTypes.array.isRequired,
-  onSelectedFavoriteMovie: PropTypes.func
+  selectedFavoriteMovie: PropTypes.func,
+  handleShowMovieDetail: PropTypes.func
 };
 
 export default function ProductList({ movies, ...props }) {
@@ -15,7 +16,7 @@ export default function ProductList({ movies, ...props }) {
     <Grid container spacing={3} {...props}>
       {movies.map((movie) => (
         <Grid key={movie.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard onSelectedFavoriteMovie={props.onSelectedFavoriteMovie} movie={movie} />
+          <ShopProductCard handleShowMovieDetail={props.handleShowMovieDetail} selectedFavoriteMovie={props.selectedFavoriteMovie} movie={movie} />
         </Grid>
       ))}
     </Grid>

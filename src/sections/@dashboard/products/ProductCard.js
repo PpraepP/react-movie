@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 // @mui
-import { Box, Card, Link, Typography, Stack, IconButton, ListItemIcon } from '@mui/material';
+import { Box, Card, Typography, Stack, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
-import { fCurrency } from '../../../utils/formatNumber';
+// import { fCurrency } from '../../../utils/formatNumber';
 // components
-import Label from '../../../components/label';
-import { ColorPreview } from '../../../components/color-utils';
+// import Label from '../../../components/label';
+// import { ColorPreview } from '../../../components/color-utils';
 import Iconify from "../../../components/iconify";
 
 // ----------------------------------------------------------------------
@@ -28,24 +28,23 @@ const StyleFavoriteButton = styled(IconButton)({
 
 ShopProductCard.propTypes = {
     movie: PropTypes.object,
-    onSelectedFavoriteMovie: PropTypes.func
+    selectedFavoriteMovie: PropTypes.func,
+    handleShowMovieDetail: PropTypes.func
 };
 
 export default function ShopProductCard({ movie , ...props}) {
-  // const { name, cover, price, colors, status, priceSale } = movie;
-  //   console.log({movie})
   const { title_en: name, poster_url: cover, release_date: date} = movie
 
-    const handelClickFavoriteButton = (movie) => {
-        console.log({movie})
-        props.onSelectedFavoriteMovie(movie)
+    const handleFavoriteButton = (e) => {
+        e.stopPropagation()
+        props.selectedFavoriteMovie(movie)
     }
 
   return (
-    <Card>
+    <Card onClick={() => props.handleShowMovieDetail(movie)}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         <StyledProductImg alt={name} src={cover} />
-          <StyleFavoriteButton onClick={() => handelClickFavoriteButton(movie)}>
+          <StyleFavoriteButton onClick={handleFavoriteButton}>
               <Iconify icon="ic:round-favorite-border" color="#e04d4f" width={30}  />
           </StyleFavoriteButton>
       </Box>

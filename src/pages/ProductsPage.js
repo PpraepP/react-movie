@@ -5,11 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Container, Stack, Typography } from '@mui/material';
 // components
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
+import MovieDetailModal from "../components/modal";
 // mock
-import PRODUCTS from '../_mock/products';
+// import PRODUCTS from '../_mock/products';
 
 import { useGetMovies } from "../hooks/useGetMovies";
-import logo from "../components/logo";
+// import logo from "../components/logo";
 import {handleFavoriteMovie, saveMovies} from "../features/movies/movieSlice";
 
 // ----------------------------------------------------------------------
@@ -17,11 +18,10 @@ import {handleFavoriteMovie, saveMovies} from "../features/movies/movieSlice";
 export default function ProductsPage() {
   const dispatch = useDispatch()
   const [openFilter, setOpenFilter] = useState(false);
-  // const [movieList, setMovieList] = useState(useSelector(state => state.movie.movies))
   const [isRender, setIsRender] = useState(false)
-
   const movieList = useSelector(state => state.movie.movies)
-  // console.log({movieList})
+  const [movieDetail, setMovieDetail] = useState(undefined)
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
 
   useEffect( (movieList) => {
     console.log('LOOK! 1')
@@ -35,15 +35,10 @@ export default function ProductsPage() {
     }
   }, [])
 
-  // useEffect( () => {
-  //   console.log('LOOK!', movieList)
-  // }, [movieList])
-
   const fetchMovies = async () => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       await useGetMovies({
         onSuccess: (res) => {
-          console.log(3)
           // eslint-disable-next-line react-hooks/rules-of-hooks
           dispatch(saveMovies(res.movies))
           setIsRender(true)
@@ -61,8 +56,12 @@ export default function ProductsPage() {
   };
 
   const handleSelectedFavorite = (movie) => {
-    console.log('on page', movie)
     dispatch(handleFavoriteMovie(movie))
+  }
+
+  const handleShowMovieDetail = (movie) => {
+    setMovieDetail(movie)
+    setIsOpenDialog(!isOpenDialog)
   }
 
   return (
@@ -87,10 +86,22 @@ export default function ProductsPage() {
           </Stack>
         </Stack>
 
-        {isRender && movieList ? <ProductList movies={movieList} onSelectedFavoriteMovie={handleSelectedFavorite} /> : <h2>Loading...</h2>}
+        {isRender && movieList ?
+            <ProductList
+                movies={movieList}
+                selectedFavoriteMovie={handleSelectedFavorite}
+                handleShowMovieDetail={handleShowMovieDetail}
+            /> : <h2>Loading...</h2>}
 
         <ProductCartWidget />
       </Container>
+      {movieDetail &&
+          <MovieDetailModal
+              movie={movieDetail}
+              isOpenDialog={isOpenDialog}
+              onCloseDialog={() => setIsOpenDialog(false)}
+          />
+      }
     </>
   );
 }
