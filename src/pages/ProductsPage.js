@@ -29,7 +29,7 @@ export default function ProductsPage() {
     }
 
     if (!movieList || movieList.length === 0) {
-      fetchData()
+       fetchData()
     } else {
       setIsRender(true)
     }

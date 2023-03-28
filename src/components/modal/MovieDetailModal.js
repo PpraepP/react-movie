@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {Modal, Typography, Box} from "@mui/material";
 import {styled} from "@mui/material/styles";
 
@@ -31,7 +32,13 @@ const StyleImageBox = styled('div')({
     marginBottom: '15px'
 })
 
-export default function MovieDetailModal({movie, isOpenDialog, onCloseDialog, ...props}) {
+MovieDetailModal.propTypes = {
+    movie: PropTypes.object,
+    isOpenDialog: PropTypes.bool,
+    onCloseDialog: PropTypes.func
+}
+
+export default function MovieDetailModal({movie, isOpenDialog, onCloseDialog}) {
     const { poster_url: cover, title_en: titleEn, title_th: titleTh, synopsis_th: detail } = movie
 
     return (

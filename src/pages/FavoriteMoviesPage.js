@@ -8,9 +8,8 @@ import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } fro
 // mock
 // import PRODUCTS from '../_mock/products';
 
-import { useGetMovies } from "../hooks/useGetMovies";
 // import logo from "../components/logo";
-import {handleFavoriteMovie, saveMovies} from "../features/movies/movieSlice";
+import {handleFavoriteMovie} from "../features/movies/movieSlice";
 import MovieDetailModal from "../components/modal";
 
 // ----------------------------------------------------------------------
@@ -25,34 +24,16 @@ export default function FavoriteMoviesPage() {
   const [movieDetail, setMovieDetail] = useState(undefined)
   const [isOpenDialog, setIsOpenDialog] = useState(false)
 
-  useEffect( () => {
-    const fetchData = async () => {
-      await fetchMovies()
-    }
-
-    if (movieList.length === 0) {
-      fetchData()
-    } else {
-      filterFavoriteMovies()
-    }
-  }, [movieList])
-
   const filterFavoriteMovies = () => {
     setFavoriteList(movieList.filter((movie) => movie.isFavorite === true))
     setIsRender(true)
   }
 
-  const fetchMovies = async () => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      await useGetMovies({
-        onSuccess: (res) => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          dispatch(saveMovies(res.movies))
-          setIsRender(true)
-        },
-        onError: () => console.log('err')
-      })
-  }
+  useEffect( () => {
+    if (movieList.length > 0) {
+      filterFavoriteMovies()
+    }
+  }, [movieList])
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
