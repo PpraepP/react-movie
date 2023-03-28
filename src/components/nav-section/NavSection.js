@@ -31,7 +31,7 @@ export default function NavSection({ data = [], ...other }) {
         if(!isAuth) {
             navigate('/login', { replace: true })
         }
-    }, [location])
+    }, [location, isAuth, navigate])
 
     const handleLogout = () => {
         dispatch(clearFavoriteMovies())

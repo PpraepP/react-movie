@@ -51,7 +51,6 @@ export default function LoginForm() {
     <>
       <Stack spacing={3}>
         <TextField name="email" label="Email address" onChange={handleChangeEmail}/>
-          <p>{dataForm.email}</p>
 
         <TextField
           name="password"
