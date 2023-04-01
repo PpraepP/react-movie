@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import PropTypes from 'prop-types';
 // @mui
 import { Box, Card, Typography, Stack, IconButton } from '@mui/material';
@@ -35,10 +36,16 @@ ShopProductCard.propTypes = {
 export default function ShopProductCard({ movie , ...props}) {
   const { title_en: name, poster_url: cover, release_date: date} = movie
 
+    const [showDate, setShowDate] = useState('')
     const handleFavoriteButton = (e) => {
         e.stopPropagation()
         props.selectedFavoriteMovie(movie.id)
     }
+
+    useEffect(() => {
+        const d = new Date(date)
+        setShowDate(`${(d.getDay() + 1)}/${d.getMonth()}/${d.getFullYear()}`)
+    }, [date])
 
   return (
     <Card onClick={() => props.handleShowMovieDetail(movie)}>
@@ -53,7 +60,7 @@ export default function ShopProductCard({ movie , ...props}) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-          <Typography variant="caption">{date}</Typography>
+          <Typography variant="caption">{showDate}</Typography>
           <Typography variant="subtitle2" noWrap>
             {name}
           </Typography>
